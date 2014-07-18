@@ -1247,7 +1247,7 @@ class Rally(object):
         if not matching_attrs:
             return None
         attribute = matching_attrs[0]
-        return [av.value for av in attribute.AllowedValues]
+        return [av.StringValue for av in attribute.AllowedValues]
 
 
     def addAttachment(self, artifact, filename, mime_type='text/plain'):
