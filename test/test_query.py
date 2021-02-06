@@ -370,27 +370,6 @@ def test_start_and_limit_query():
     assert len(items) >  10
     assert len(items) <= 40
 
-def test_query_target_value_with_ampersand():
-    """
-        Query for a Project.Name = 'R&D'
-    """
-    criteria = ['Project.Name = R&D']
-    result = RallyQueryFormatter.parenGroups(criteria)
-    assert unquote(result) == 'Project.Name = R&D'.replace('&', '%26')
-
-    criteria = ['Project.Name = "R&D"']
-    result = RallyQueryFormatter.parenGroups(criteria)
-    assert unquote(result) == 'Project.Name = "R&D"'.replace('&', '%26')
-
-    criteria = ['Project.Name contains "R&D"']
-    result = RallyQueryFormatter.parenGroups(criteria)
-    assert unquote(result) == 'Project.Name contains "R&D"'.replace('&', '%26')
-
-    criteria = 'Railhead.Company.Name != "Atchison Topeka & Santa Fe & Cunard Lines"'
-    result = RallyQueryFormatter.parenGroups(criteria)
-    assert unquote(result) == criteria.replace('&', '%26')
-
-
 def test_query_target_value_with_and():
     """
         Query for a Project.Name = 'Operations and Support Group'
@@ -550,6 +529,44 @@ def test_query_using_project_scoping_options():
                          projectScopeUp=True, projectScopeDown=True)
     assert response.resultCount == 9
 
+def test_query_target_value_with_ampersand():
+    """
+        Query for a Project.Name = 'R&D'
+
+        Note: This test must be last as there is some weird interplay going on when this is higher up
+              in the file.  3 Tests fail having nothing to do with ampersands in the query criteria
+              when this test appears before them.
+    """
+    criteria = ['Project.Name = R&D']
+    result = RallyQueryFormatter.parenGroups(criteria)
+    #assert unquote(result) == 'Project.Name = R&D'.replace('&', '%26')
+    assert unquote(result) == 'Project.Name = R&D'
+
+    criteria = ['Project.Name = "R&D"']
+    result = RallyQueryFormatter.parenGroups(criteria)
+    #assert unquote(result) == 'Project.Name = "R&D"'.replace('&', '%26')
+    assert unquote(result) == 'Project.Name = "R&D"'
+
+    criteria = ['Project.Name contains "R&D"']
+    result = RallyQueryFormatter.parenGroups(criteria)
+    #assert unquote(result) == 'Project.Name contains "R&D"'.replace('&', '%26')
+    assert unquote(result) == 'Project.Name contains "R&D"'
+
+    criteria = 'Railhead.Company.Name != "Atchison Topeka & Santa Fe & Cunard Lines"'
+    result = RallyQueryFormatter.parenGroups(criteria)
+    #assert unquote(result) == criteria.replace('&', '%26')
+    assert unquote(result) == criteria
+
+    APIKEY = "_useYourRallyKey"
+    RALLY_100_APIKEY = "_lsMzURZTRyBoD3bwnpn5kUZvDQkRIoEeGkq7QNkg"
+    target_workspace = 'Rally'
+    target_project   = 'R&D'
+    rally = Rally(server='rally1.rallydev.com', apikey=RALLY_100_APIKEY, workspace=target_workspace, project=target_project)
+    pifs = rally.get('Feature', fetch='Name,FormattedID')
+    assert pifs.resultCount == 26  # as of 02/05/2021 this was correct, total of 26 Features for R&D
+    # The following does not work...
+    pifs = rally.get('Feature', fetch='Name,FormattedID', query=['Project.Name = "R&D"', 'Name contains "On-Prem"'])
+    assert pifs.resultCount == 7   # as of 02/05/2021 this was correct, 7 Features had "On-Prem" in the Name
 
 #test_basic_query()
 #test_simple_named_fields_query()
@@ -573,6 +590,6 @@ def test_query_using_project_scoping_options():
 #test_limit_query()
 #test_start_value_query()
 #test_start_and_limit_query()
-#test_query_target_value_with_ampersand()
 #test_query_target_value_with_and()
 #test_query_with_special_chars_in_criteria
+#test_query_target_value_with_ampersand()

@@ -129,6 +129,15 @@ has a DisplayName of 'Burnt Offerings Index' you can use the String of 'BurntOff
 a fetch clause or a query clause or refer to the field directly on an artifact 
 as artifact.BurntOfferingsIndex.
 
+
+PortfolioItem tips
+==================
+Rally has 4 standard PortfolioItem sub-types (Theme, Strategy, Initiative, and Feature).
+In this toolkit, for the primary methods (get, create, update, delete), you must supply a
+entity name (eg, 'Story', 'Defect', 'Task', etc). For a PortfolioItem sub-type you may
+specify just the name of the sub-type, ie., 'Feature' or you may fully qualify it as
+'PortfolioItem/Feature'.
+
 Introduction of Dyna-Types
 ==========================
 
@@ -154,4 +163,9 @@ here is that if you don't use PortfolioItem instances with pyral, you don't have
 If you use PortfolioItem instances with pyral or you've defined your own "abstract" 
 parent types and specific sub-types thereof, you are strongly encouraged to use the slashed specification 
 to avoid ambiguity in identifying the Rally entity type.
+
+In the event your organization has created a sub-type with the same name as a standard Rally entity
+(eg, 'Project', 'Release', 'Milestone', etc.) you will be unable to use this toolkit to access those items.
+There will be no consideration given to supporting any custom PortfolioItem sub-type whose name conflicts with
+Rally standard entity name.
   

@@ -115,8 +115,10 @@ class EntityHydrator(object):
                 wksp_oid = item['Workspace']['_ref'].split('/')[-1]
                 workspace = (self.context.workspace, 'workspace/{0}'.format(wksp_oid))
                 si = getSchemaItem(workspace, str(itemType))
-                print(si)
-            if bonked:    
+##
+##              print("SchemaItem for %s:\n%s" % (str(itemType, si)))
+##
+            if bonked:
                 if '/portfolioitem/' in resource_url:
 ##
 ##                  print('creating new PortfolioItem sub-type class for %s' % itemType)
@@ -128,7 +130,7 @@ class EntityHydrator(object):
 ##                  print('instance of %s created using newly created class added to classFor cache' % itemType)
 ##
                 else:
-                    print("No classFor item for |%s|" % itemType)
+                    sys.stderr.write("No classFor item for |%s|\n" % itemType)
                     raise KeyError(itemType)
 
         instance._type = itemType  # although, this info is also available via instance.__class__.__name__

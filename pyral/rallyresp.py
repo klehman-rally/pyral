@@ -221,7 +221,7 @@ class RallyRESTResponse(object):
         if self.resultCount > 0:
            self._servable = self.resultCount
            if self.startIndex > 1:
-               self._servable = self.resultCount - self.startIndex
+               self._servable = self.resultCount - self.startIndex + 1
         self._servable   = min(self._servable, self._limit)
         self._served     = 0
         self._curIndex   = 0
@@ -235,7 +235,7 @@ class RallyRESTResponse(object):
 ##        print("RallyRESTResponse, self.resultCount: |%s|" % self.resultCount)
 ##        print("RallyRESTResponse, self._servable  : |%s|" % self._servable)
 ##        print("RallyRESTResponse._page: has %d items" % len(self._page))
-##        #print("RallyRESTResponse._page: %s" % self._page)
+##        print("RallyRESTResponse._page: %s" % self._page)
 ##        print("")
 ##
 
@@ -377,9 +377,9 @@ class RallyRESTResponse(object):
         underscore_prefix_keys = [key for key in all_item_keys if key[0] == u'_']
         std_underscore_prefix_keys = ['_type', '_ref', '_refObjectUUID', '_CreatedAt', '_objectVersion']
         for _key in std_underscore_prefix_keys:
-            try: 
-                print("    %20.20s: %s" % (_key, item[_key])) 
-            except: 
+            try:
+                print("    %20.20s: %s" % (_key, item[_key]))
+            except:
                 pass
         other_prefix_keys = [key for key in underscore_prefix_keys if key not in std_underscore_prefix_keys]
         for _key in other_prefix_keys:
@@ -388,9 +388,9 @@ class RallyRESTResponse(object):
         regular_keys = [key for key in all_item_keys if key[0] !='_']
         std_regular_keys = ['ObjectID', 'ObjectUUID', 'CreationDate']
         for key in std_regular_keys:
-            try: 
+            try:
                 print("    %20.20s: %s" % (key, item[key]))
-            except: 
+            except:
                 pass
         other_regular_keys = [key for key in regular_keys if key not in std_regular_keys]
         for key in other_regular_keys:
