@@ -27,7 +27,7 @@ SHORT_DESCRIPTION = 'README.short'
 FULL_DESCRIPTION  = 'README.rst'
 KEYWORDS      = ['rally', 'api']
 
-MINIMUM_REQUESTS_VERSION = '2.12.0'  # although 2.22.x is recommended
+MINIMUM_REQUESTS_VERSION = '2.12.5'  # although 2.22.x is recommended
 REQUIRES      = ['six', 
                  'requests>=%s' % MINIMUM_REQUESTS_VERSION
                 ]
