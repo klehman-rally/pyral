@@ -28,7 +28,7 @@ from .entity    import InvalidRallyTypeNameError, UnrecognizedAllowedValuesRefer
 
 ###################################################################################################
 
-__all__ = ["RallyContext", "RallyContextHelper", "AgileCentralContext", "AgileCentralContextHelper"]
+__all__ = ["RallyContext", "RallyContextHelper"]
 
 ###################################################################################################
 
@@ -90,8 +90,6 @@ class RallyContext(object):
     def __repr__(self):
         return self.identity()
 
-AgileCentralContext = RallyContext
-        
 ##################################################################################################
 
 class RallyContextHelper(object):
@@ -911,6 +909,4 @@ class RallyContextHelper(object):
         items.append('%s = %s' % ('_currentProject',    self._currentProject))
         representation = "\n".join(items)
         return representation
-
-AgileCentralContextHelper = RallyContextHelper 
 
