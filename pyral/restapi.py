@@ -1302,7 +1302,14 @@ class Rally(object):
         #resource_url = "%s&pagesize=%s" % (left, right)
 
         url, query_string = resource_url.split('?', 1)
-        resource_url = "%s?keywords=%s&%s" % (url, quote(keywords), query_string)
+        query_parameters = ["keywords=%s"%quote(keywords),query_string]
+        
+        if 'recycledItems' in kwargs:
+            query_parameters.append('recycledItems=%s' % kwargs['recycledItems'])
+        if 'closedProjectsOnly' in kwargs:
+            query_parameters.append('closedProjectsOnly=%s' % kwargs['closedProjectsOnly'])
+
+        resource_url = "%s?%s" % (url,"&".join(query_parameters))
 ##
 ##        print(resource_url)
 ##
